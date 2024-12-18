@@ -5,8 +5,14 @@ import { useState, useEffect } from 'react'
 
 const Home = () => {
 
+    //set State
     const [entries, setEntries] = useState(originalEntries); //initial array for entries
+    
 
+    // Sync entries to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('entries', JSON.stringify(entries));
+    }, [entries]);
 
 
     return (

@@ -1,5 +1,5 @@
 import Home from './HomePage'
-import Modal from '../components/oldEntry_Modal'
+import Modal from '../components/FullEntry'
 
 const EntryPage = ({entry}) => {
 
