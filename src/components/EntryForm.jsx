@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import formattedToday from '../data/DateofToday';
 import DefaultImage from '../assets/open-book-with-floral-illustration-minimalist-line-art-design_432571-4214.jpg'
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Form = ({ setEntries }) => {
 	
-	// Set Initial Form Stat
+	// Set Initial Form State
 	const [formData, setFormData] = useState({
-		id: '',
+		id: `${uuidv4()}`,
 		date: `${formattedToday}`, 
 		title: "",
 		image: "",
@@ -18,19 +20,23 @@ const Form = ({ setEntries }) => {
 
     // Handle input changes
     const handleChange = (e) => {
-        const { key, value } = e.target;
-        setFormData((prevData) => ({
+        const { name, value } = e.target; //get the name attribute
+		console.log(value); 
+        setFormData((prevData) => ({ //update value on change
             ...prevData,
-            [key]: value,
+            [name]: value,
         }));
+		const aux = formData; //for validation print to soncole
+		console.log(aux)
     };
 
+	
 	// Validate form data
     const validate = () => {
-        const newErrors = {};
+        const newErrors = {}; // Create an empty object to store error messages for invalid fields.
 
         if (!formData.title.trim()) {// evaluates true if title is empty/only whitespace
-            newErrors.name = 'Title is required.';
+            newErrors.name = 'Title is required.'; //Create errror for name field
         }
 
         if (!formData.content.trim()) {
@@ -38,24 +44,31 @@ const Form = ({ setEntries }) => {
         } 
 
         if (!formData.image.trim()) {
-            formData.image = `${DefaultImage}`,  
+            formData.image = `${DefaultImage}`;  
         }
 
-        setErrors(newErrors);
+        setErrors(newErrors); //Update the state with the collected error messages.
 
+		
         // Return true if there are no errors
 		//This method returns an array of the keys (property names) of the newErrors object. For example:
         return Object.keys(newErrors).length === 0; // if array is empty there are no errors -> returns true
+		
     };
+	
+
 
 	// Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (validate()) { // if validate returns true
-            setEntries((prevEntries) => [...prevEntries, formData]);
-			// Optionally, log the entries to verify
-        	console.log(entries);
+            setEntries((prevEntries) => {
+				const newArray = [...prevEntries, formData];
+				console.log(newArray);
+				return newArray
+			}
+				);
 
             // Clear the form again
             setFormData({
@@ -69,42 +82,43 @@ const Form = ({ setEntries }) => {
     };
 
 	return (
-		<>
+		<div className="flex flex-col">
 			<h3 className="font-bold text-lg">Create new Entry</h3>
-			<form onSubmit={handleSubmit}>
-				<label for="title">Today's Title</label>
-				<br></br>
+			<form onSubmit={handleSubmit} className="flex flex-col justify-start items-start gap-4">
+				<label htmlFor="title">Today's Title</label>
 				<input
+					name="title"
 					type="text"
 					placeholder="Type here"
-					className="input input-bordered w-full max-w-xs ${
-                        errors.name ? 'border-red-500' : 'border-gray-300'"
+					className="input input-bordered w-full  ${
+                        errors.name ? 'border-red-500' : 'border-gray-600'"
 					value = {formData.title}
 					onChange={handleChange}
 
 				/>
-				<label for="content">Make your Entry</label>
-				<br></br>
+				<label htmlFor="content">Make your Entry</label>
+				
 				<textarea
-					placeholder="Dear diary..."
-					class="textarea textarea-md w-full max-w-xs ${
-                        errors.name ? 'border-red-500' : 'border-gray-300'"
 					name="content"
+					placeholder="Dear diary..."
+					className="textarea textarea-md w-full border-gray-600	 ${
+                        errors.name ? 'border-red-500' : 'border-gray-600'"
 					value = {formData.content}
 					onChange={handleChange}
 				></textarea>
-				<label for="image">Pick a custom Image</label>
-				<br></br>
+				<label htmlFor="image">Pick a custom Image</label>
+				
 				<input
+					name="image"
 					type="file"
 					className="file-input file-input-bordered file-input-sm w-full max-w-xs ${
-                        errors.name ? 'border-red-500' : 'border-gray-300'"
-					name="image"
+                        errors.name ? 'border-red-500' : 'border-gray-600'"
 					value = {formData.image}
 					onChange={handleChange}
 				/>
+				<button type="sumbit" value="create Entry" className="btn btn-active btn-primary">Create</button>
 			</form>
-		</>
+		</div>
 	);
 };
 

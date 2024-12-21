@@ -1,16 +1,11 @@
-import Home from './HomePage'
-import Modal from '../components/FullEntry'
+import Home from "./homepage";
+import { useParams } from "react-router-dom";
 
-const EntryPage = ({entry}) => {
+const EntryPage = () => {
+	const {id} = useParams();
+    console.log(id); // Logs the value of 'id' for debugging
 
+	return <Home />;
+};
 
-    return (
-        <>
-            <Home />
-            <Modal />
-        </>
-    )
-    
-    }
-    
-    export default EntryPage
+export default EntryPage;

@@ -8,7 +8,7 @@ const Card = ({entry}) => {
 				<h2 className="card-title">{entry.title}</h2>
 				{/* You can open the modal using document.getElementById('ID').showModal() method */}
 				<div className="card-actions justify-start">
-					<Link to='' onClick={() => document.getElementById("my_modal_4").showModal()} className="btn btn-primary">Read</Link>
+					<Link key={entry.id} to={`/entry/${entry.id}`} className="btn btn-primary">Read</Link>
 				</div>
 			</div>
             <figure>
