@@ -1,16 +1,20 @@
-const FullEntry = ({entry}) => {
+const FullEntry = ({ DiaryEntry = null }) => {
 	return (
-		<div className="flex flex-col">
-			<figure>
-				<img
-					src={`${entry.image}`}
-					alt={`${entry.title}`}
-				/>
-			</figure>
-			<p className="justify-start text-xs text-left">{entry.date}</p>
-			<h2 className="card-title">{entry.title}</h2>
-			<p>{entry.content}</p>
-		</div>
+		<>
+			{
+				DiaryEntry ?
+					(<div className="flex flex-col">
+						< figure >
+							<img
+								src={`${DiaryEntry.image}`}
+								alt={`${DiaryEntry.title}`}
+							/>
+						</figure >
+						<p className="justify-start text-xs text-left">{DiaryEntry.date}</p>
+						<h2 className="card-title">{DiaryEntry.title}</h2>
+						<p>{DiaryEntry.content}</p>
+					</div >) : (<div>404 Entry not found</div>)}
+		</>
 	);
 };
 

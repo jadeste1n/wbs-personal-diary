@@ -1,4 +1,4 @@
-import Home from "../pages/homepage";
+import Home from "../pages/HomePage";
 import EntryPage from "../pages/EntryPage";
 import NotFound from "../pages/NotFound";
 
